@@ -461,7 +461,7 @@ GameObject:
   - component: {fileID: 1917370295}
   - component: {fileID: 1917370294}
   m_Layer: 0
-  m_Name: Packman
+  m_Name: Pacman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
