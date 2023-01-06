@@ -331,8 +331,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToSpawn: {fileID: 3844494815978723173, guid: 9f7476ab3985a45bbab993c6fe6dd145, type: 3}
-  minPosition: {x: -90, y: 1, z: -90}
-  maxPosition: {x: 90, y: 1, z: 90}
+  minPosition: {x: -25, y: 1, z: -50}
+  maxPosition: {x: 25, y: 1, z: 50}
 --- !u!4 &1046481666
 Transform:
   m_ObjectHideFlags: 0
