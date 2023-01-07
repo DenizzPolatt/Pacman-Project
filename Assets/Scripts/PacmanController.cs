@@ -6,12 +6,17 @@ using UnityEngine.SceneManagement;
 public class PacmanController : MonoBehaviour
 {
     private float speed = 30f;
+    private Rigidbody _rigidbody;
+    
     public bool _isPoweredUp;
     public Material Material1;
     public Material DefaultMaterial;
     public GameObject[] ghosts;
-
-    private Rigidbody _rigidbody;
+    public Material PacmanMaterial;
+    public Material BoostMaterial;
+    
+    
+    
     // Start is called before the first frame update
     private void Start()
     {
@@ -60,6 +65,7 @@ public class PacmanController : MonoBehaviour
         yield return new WaitForSeconds(5);
         _isPoweredUp = false;
         speed = 30;
+        gameObject.GetComponent<MeshRenderer>().material = PacmanMaterial;
         
         for (int i = 0; i < ghosts.Length; i++)
         {
@@ -71,7 +77,7 @@ public class PacmanController : MonoBehaviour
     private void PowerUp()
     {
         Debug.Log("boosted");
-        
+
         for (int i = 0; i < ghosts.Length; i++)
         {
             if(ghosts[i] != null)
@@ -79,6 +85,7 @@ public class PacmanController : MonoBehaviour
         }
         
         speed = 60;
+        gameObject.GetComponent<MeshRenderer>().material = BoostMaterial;
         StartCoroutine(BoosterCountdown());
     }
 }
