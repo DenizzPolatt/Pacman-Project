@@ -21,6 +21,7 @@ public class Food : MonoBehaviour
         var pacman = collision.collider.GetComponent<PacmanController>();
         if (pacman != null)
         {
+            pacman._isPoweredUp = true;
             Destroy(gameObject);
         }
     }
