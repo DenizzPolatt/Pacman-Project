@@ -10,12 +10,12 @@ public class Spawner : MonoBehaviour
 
     private int numberOfSpawns = 5;
     
-    void Start()
+    private void Start()
     {
         spawnFood();
     }
 
-    void spawnFood()
+    private void spawnFood()
     {
         for (int i = 0; i < numberOfSpawns; i++)
         {
