@@ -12,12 +12,7 @@ public class GhostController : MonoBehaviour
     [SerializeField] private Transform _pointA;
     [SerializeField] private Transform _pointB;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
+    
     // Update is called once per frame
     void Update()
     {
@@ -40,6 +35,4 @@ public class GhostController : MonoBehaviour
 
         return _pointB.position;
     }
-    
-    
 }

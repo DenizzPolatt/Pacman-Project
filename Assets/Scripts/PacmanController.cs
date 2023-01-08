@@ -7,13 +7,15 @@ public class PacmanController : MonoBehaviour
 {
     private float speed = 30f;
     private Rigidbody _rigidbody;
+    public int KilledGhosts = 0;
+    private bool _isPoweredUp;
+    private float _boosterTimer;
     
-    public bool _isPoweredUp;
-    public Material Material1;
-    public Material DefaultMaterial;
+    public Material GhostBoostBlueMaterial;
+    public Material GhostDefaultMaterial;
     public GameObject[] ghosts;
-    public Material PacmanMaterial;
-    public Material BoostMaterial;
+    public Material PacmanDefaultMaterial;
+    public Material PacmanBoostMaterial;
     
     
     
@@ -35,14 +37,35 @@ public class PacmanController : MonoBehaviour
         if(Input.GetKey(KeyCode.D))
             _rigidbody.velocity = new Vector3(speed, 0, 0);
 
-        if (_isPoweredUp)
-        {
-            PowerUp();
-        }
-
-        if (ghosts.Length == 0)
+        if (KilledGhosts == ghosts.Length)
         {
             SceneManager.LoadScene(0);
+        }
+        
+        if (gameObject.transform.position.x < -50f)
+        {
+            _rigidbody.transform.position = new Vector3(50, 0, 0);
+            _rigidbody.velocity = new Vector3(-speed, 0, 0);
+        }
+        
+        if (gameObject.transform.position.x > 50f)
+        {
+            _rigidbody.transform.position = new Vector3(-50, 0, 0);
+            _rigidbody.velocity = new Vector3(speed, 0, 0);
+        }
+
+        BoosterUpdate();
+    }
+
+    private void BoosterUpdate()
+    {
+        if (_isPoweredUp)
+        {
+            _boosterTimer -= Time.deltaTime;
+            if (_boosterTimer < 0)
+            {
+                PowerDown();
+            }
         }
     }
 
@@ -50,8 +73,8 @@ public class PacmanController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ghost") && _isPoweredUp)
         {
+            KilledGhosts++;
             Destroy(collision.gameObject);
-            PowerUp();
         }
 
         if (collision.gameObject.CompareTag("Ghost") && !_isPoweredUp)
@@ -59,33 +82,39 @@ public class PacmanController : MonoBehaviour
             SceneManager.LoadScene(0);
         }
     }
-
-    private IEnumerator BoosterCountdown()
+    
+    public void PowerUp()
     {
-        yield return new WaitForSeconds(5);
-        _isPoweredUp = false;
-        speed = 30;
-        gameObject.GetComponent<MeshRenderer>().material = PacmanMaterial;
-        
-        for (int i = 0; i < ghosts.Length; i++)
-        {
-            if(ghosts[i] != null)
-                ghosts[i].GetComponent<MeshRenderer>().material = DefaultMaterial;
-        }
+        _boosterTimer += 5;
+        _isPoweredUp = true;
+        speed = 60;
+        PaintToBoosted();
     }
     
-    private void PowerUp()
+    private void PowerDown()
     {
-        Debug.Log("boosted");
+        _isPoweredUp = false;
+        speed = 30;
+        PaintToDefault();
+    }
 
+    private void PaintToDefault()
+    {
         for (int i = 0; i < ghosts.Length; i++)
         {
-            if(ghosts[i] != null)
-                ghosts[i].GetComponent<MeshRenderer>().material = Material1;
+            if (ghosts[i] != null)
+                ghosts[i].GetComponent<MeshRenderer>().material = GhostDefaultMaterial;
         }
-        
-        speed = 60;
-        gameObject.GetComponent<MeshRenderer>().material = BoostMaterial;
-        StartCoroutine(BoosterCountdown());
+        gameObject.GetComponent<MeshRenderer>().material = PacmanDefaultMaterial;
+    }
+    
+    private void PaintToBoosted()
+    {
+        for (int i = 0; i < ghosts.Length; i++)
+        {
+            if (ghosts[i] != null)
+                ghosts[i].GetComponent<MeshRenderer>().material = GhostBoostBlueMaterial;
+        }
+        gameObject.GetComponent<MeshRenderer>().material = PacmanBoostMaterial;
     }
 }

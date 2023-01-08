@@ -16,12 +16,12 @@ public class Food : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        var pacman = collision.collider.GetComponent<PacmanController>();
+        var pacman = collider.GetComponent<PacmanController>();
         if (pacman != null)
         {
-            pacman._isPoweredUp = true;
+            pacman.PowerUp();
             Destroy(gameObject);
         }
     }
